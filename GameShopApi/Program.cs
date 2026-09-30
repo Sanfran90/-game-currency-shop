@@ -1,6 +1,9 @@
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 
+app.UseDefaultFiles();
+app.UseStaticFiles();
+
 var products = new List<Product>
 {
     new(1, "Золотые монеты x1000", "currency", 4.99m),
