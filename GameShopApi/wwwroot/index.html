@@ -4,291 +4,92 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Game Currency Shop</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%235eead4'/%3E%3Cstop offset='1' stop-color='%23245751'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='48' height='48' rx='12' fill='url(%23g)'/%3E%3Cpolygon points='24,9 37,20 24,39 11,20' fill='%2308211d'/%3E%3Cpolygon points='24,9 30,20 24,39 18,20' fill='%235eead4'/%3E%3C/svg%3E">
 <style>
-  :root{
-    --bg:#0d1117;
-    --panel:#12181f;
-    --panel-2:#161d25;
-    --line:#22303c;
-    --text:#e8edf2;
-    --sub:#7c8a97;
-    --accent:#5eead4;
-    --accent-dim:#245751;
-    --danger:#f87171;
-  }
+  :root{--bg:#0d1117;--panel:#12181f;--panel-2:#161d25;--line:#22303c;--text:#e8edf2;--sub:#7c8a97;--accent:#5eead4;--accent-dim:#245751;--danger:#f87171;}
   @media (prefers-color-scheme: light){
-    :root:not([data-theme="dark"]){
-      --bg:#f1f4f6; --panel:#ffffff; --panel-2:#f7f9fa; --line:#dbe2e8;
-      --text:#101418; --sub:#5c6b78; --accent:#0f9b86; --accent-dim:#d3f3ee; --danger:#dc2626;
-    }
+    :root:not([data-theme="dark"]){--bg:#f1f4f6;--panel:#fff;--panel-2:#f7f9fa;--line:#dbe2e8;--text:#101418;--sub:#5c6b78;--accent:#0f9b86;--accent-dim:#d3f3ee;--danger:#dc2626;}
   }
-  :root[data-theme="dark"]{
-    --bg:#0d1117; --panel:#12181f; --panel-2:#161d25; --line:#22303c;
-    --text:#e8edf2; --sub:#7c8a97; --accent:#5eead4; --accent-dim:#245751; --danger:#f87171;
-  }
-
   *{box-sizing:border-box;}
   html,body{height:100%;}
-  body{
-    margin:0;
-    background:var(--bg);
-    color:var(--text);
-    font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
-    padding-top:env(safe-area-inset-top,0px);
-    padding-bottom:env(safe-area-inset-bottom,0px);
-  }
-
-  header{
-    position:sticky;
-    top:0;
-    top:env(safe-area-inset-top,0px);
-    z-index:10;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:16px 20px;
-    background:var(--bg);
-    border-bottom:1px solid var(--line);
-  }
-
+  body{margin:0;background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,-apple-system,sans-serif;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);}
+  header{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;display:flex;align-items:center;justify-content:space-between;padding:16px 20px;background:var(--bg);border-bottom:1px solid var(--line);}
   .brand{display:flex;align-items:center;gap:12px;}
-  .brand-icon{
-    width:38px;height:38px;border-radius:10px;
-    background:linear-gradient(155deg,var(--accent) 0%,var(--accent-dim) 100%);
-    display:flex;align-items:center;justify-content:center;
-    font-weight:700;font-size:14px;color:#08211d;
-  }
+  .brand-icon{width:42px;height:42px;display:block;flex-shrink:0;}
+  .brand-text{display:flex;flex-direction:column;line-height:1.15;}
+  .brand-tag{font-size:11px;color:var(--sub);}
+  [hidden]{display:none!important;}
+  .custom{background:var(--panel);border:1px solid var(--accent-dim);border-radius:16px;padding:18px;margin-bottom:8px;display:flex;flex-wrap:wrap;gap:14px;align-items:center;}
+  .custom-text{flex:1 1 220px;}
+  .custom-title{font-size:15px;font-weight:700;}
+  .custom-sub{font-size:12px;color:var(--sub);margin-top:3px;}
+  .custom-form{display:flex;gap:10px;align-items:center;}
+  .amount-wrap{display:flex;align-items:center;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:0 12px;}
+  .amount-wrap:focus-within{border-color:var(--accent);}
+  .amount-wrap input{width:110px;background:none;border:none;outline:none;color:var(--text);font-size:16px;font-weight:600;padding:10px 0;}
+  .amount-wrap span{color:var(--sub);font-weight:600;}
+  .quick{display:flex;gap:8px;flex-wrap:wrap;flex-basis:100%;align-items:center;}
+  .quick .chip{padding:5px 12px;}
+  .custom-sum{font-size:13px;color:var(--sub);margin-left:auto;}
+  .custom-sum b{color:var(--text);}
   .brand-name{font-weight:600;font-size:16px;}
-
-  .cart-btn{
-    position:relative;
-    display:flex;align-items:center;gap:8px;
-    background:var(--panel);
-    border:1px solid var(--line);
-    border-radius:11px;
-    padding:9px 14px;
-    color:var(--text);
-    font-size:14px;
-    cursor:pointer;
-  }
+  .cart-btn{display:flex;align-items:center;gap:8px;background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:9px 14px;color:var(--text);font-size:14px;cursor:pointer;}
   .cart-btn:hover{background:var(--panel-2);}
-  .cart-badge{
-    background:var(--accent);
-    color:#08211d;
-    font-size:11px;
-    font-weight:700;
-    min-width:18px;
-    height:18px;
-    border-radius:9px;
-    display:flex;align-items:center;justify-content:center;
-    padding:0 5px;
-  }
-
-  main{
-    max-width:920px;
-    margin:0 auto;
-    padding:24px 20px 60px;
-  }
-
+  .cart-badge{background:var(--accent);color:#08211d;font-size:11px;font-weight:700;min-width:18px;height:18px;border-radius:9px;display:flex;align-items:center;justify-content:center;padding:0 5px;}
+  main{max-width:1080px;margin:0 auto;padding:24px 20px 60px;}
   h1{font-size:19px;margin:0 0 4px;}
-  .subtitle{color:var(--sub);font-size:13px;margin:0 0 22px;}
-
-  .grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fill,minmax(190px,1fr));
-    gap:14px;
-  }
-
-  .card{
-    background:var(--panel);
-    border:1px solid var(--line);
-    border-radius:16px;
-    padding:16px;
-    display:flex;
-    flex-direction:column;
-    gap:10px;
-  }
-
-  .card-icon{
-    width:44px;height:44px;
-    border-radius:11px;
-    display:flex;align-items:center;justify-content:center;
-    font-size:20px;
-    background:var(--panel-2);
-    border:1px solid var(--line);
-  }
-
+  .subtitle{color:var(--sub);font-size:13px;margin:0 0 18px;}
+  .tools{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:20px;}
+  .search{flex:1 1 220px;background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:10px 14px;color:var(--text);font-size:14px;outline:none;}
+  .search:focus{border-color:var(--accent);}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;}
+  .chip{background:var(--panel);border:1px solid var(--line);color:var(--sub);border-radius:20px;padding:7px 14px;font-size:13px;cursor:pointer;}
+  .chip:hover{color:var(--text);}
+  .chip.active{background:var(--accent);border-color:var(--accent);color:#08211d;font-weight:600;}
+  .group-title{font-size:14px;color:var(--sub);margin:26px 0 12px;font-weight:600;letter-spacing:.02em;}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:14px;}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:10px;}
+  .card:hover{border-color:var(--accent-dim);}
+  .card-icon{width:44px;height:44px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:20px;background:var(--panel-2);border:1px solid var(--line);}
   .card-name{font-size:14px;font-weight:600;line-height:1.3;}
   .card-desc{font-size:12px;color:var(--sub);flex-grow:1;}
-
-  .card-bottom{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    margin-top:4px;
-  }
-
+  .card-bottom{display:flex;align-items:center;justify-content:space-between;margin-top:4px;}
   .price{font-size:15px;font-weight:700;}
-
-  .buy-btn{
-    background:var(--accent);
-    color:#08211d;
-    border:none;
-    border-radius:9px;
-    padding:8px 14px;
-    font-size:13px;
-    font-weight:600;
-    cursor:pointer;
-  }
+  .buy-btn{background:var(--accent);color:#08211d;border:none;border-radius:9px;padding:8px 14px;font-size:13px;font-weight:600;cursor:pointer;}
   .buy-btn:hover{filter:brightness(1.08);}
-  .buy-btn:active{filter:brightness(0.94);}
-
-  /* overlay + drawer */
-  .overlay{
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,0.5);
-    opacity:0;
-    pointer-events:none;
-    transition:opacity .18s ease;
-    z-index:20;
-  }
+  .buy-btn:active{filter:brightness(.94);}
+  .no-results{color:var(--sub);text-align:center;padding:50px 10px;font-size:14px;}
+  .overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);opacity:0;pointer-events:none;transition:opacity .18s ease;z-index:20;}
   .overlay.open{opacity:1;pointer-events:auto;}
-
-  .drawer{
-    position:fixed;
-    top:0;
-    right:0;
-    height:100%;
-    width:min(380px,100%);
-    background:var(--panel);
-    border-left:1px solid var(--line);
-    transform:translateX(100%);
-    transition:transform .22s ease;
-    z-index:21;
-    display:flex;
-    flex-direction:column;
-    padding-top:env(safe-area-inset-top,0px);
-    padding-bottom:env(safe-area-inset-bottom,0px);
-  }
+  .drawer{position:fixed;top:0;right:0;height:100%;width:min(380px,100%);background:var(--panel);border-left:1px solid var(--line);transform:translateX(100%);transition:transform .22s ease;z-index:21;display:flex;flex-direction:column;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);}
   .drawer.open{transform:translateX(0);}
-
-  .drawer-head{
-    display:flex;align-items:center;justify-content:space-between;
-    padding:18px 20px;
-    border-bottom:1px solid var(--line);
-  }
+  .drawer-head{display:flex;align-items:center;justify-content:space-between;padding:18px 20px;border-bottom:1px solid var(--line);}
   .drawer-head h2{font-size:16px;margin:0;}
-  .close-btn{
-    background:none;border:none;color:var(--sub);
-    font-size:20px;cursor:pointer;line-height:1;padding:4px;
-  }
+  .close-btn{background:none;border:none;color:var(--sub);font-size:20px;cursor:pointer;line-height:1;padding:4px;}
   .close-btn:hover{color:var(--text);}
-
-  .cart-items{
-    flex-grow:1;
-    overflow-y:auto;
-    padding:12px 20px;
-  }
-
-  .empty-cart{
-    color:var(--sub);
-    font-size:13px;
-    text-align:center;
-    padding:40px 10px;
-  }
-
-  .cart-row{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    padding:12px 0;
-    border-bottom:1px solid var(--line);
-  }
+  .cart-items{flex-grow:1;overflow-y:auto;padding:12px 20px;}
+  .empty-cart{color:var(--sub);font-size:13px;text-align:center;padding:40px 10px;}
+  .cart-row{display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid var(--line);}
   .cart-row:last-child{border-bottom:none;}
-
-  .cart-row-icon{
-    width:34px;height:34px;border-radius:9px;
-    background:var(--panel-2);
-    border:1px solid var(--line);
-    display:flex;align-items:center;justify-content:center;
-    font-size:15px;flex-shrink:0;
-  }
+  .cart-row-icon{width:34px;height:34px;border-radius:9px;background:var(--panel-2);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
   .cart-row-info{flex-grow:1;min-width:0;}
   .cart-row-name{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   .cart-row-price{font-size:12px;color:var(--sub);}
-
-  .qty{
-    display:flex;align-items:center;
-    background:var(--bg);
-    border:1px solid var(--line);
-    border-radius:9px;
-    overflow:hidden;
-  }
-  .qty button{
-    width:26px;height:26px;border:none;background:transparent;
-    color:var(--text);font-size:14px;cursor:pointer;
-  }
+  .qty{display:flex;align-items:center;background:var(--bg);border:1px solid var(--line);border-radius:9px;overflow:hidden;}
+  .qty button{width:26px;height:26px;border:none;background:transparent;color:var(--text);font-size:14px;cursor:pointer;}
   .qty button:hover{background:var(--panel-2);}
   .qty span{width:22px;text-align:center;font-size:13px;}
-
-  .remove-btn{
-    background:none;border:none;color:var(--sub);
-    font-size:16px;cursor:pointer;padding:2px 4px;flex-shrink:0;
-  }
+  .remove-btn{background:none;border:none;color:var(--sub);font-size:16px;cursor:pointer;padding:2px 4px;flex-shrink:0;}
   .remove-btn:hover{color:var(--danger);}
-
-  .drawer-foot{
-    border-top:1px solid var(--line);
-    padding:16px 20px;
-  }
-  .total-row{
-    display:flex;justify-content:space-between;align-items:center;
-    font-size:14px;margin-bottom:12px;
-  }
+  .drawer-foot{border-top:1px solid var(--line);padding:16px 20px;}
+  .total-row{display:flex;justify-content:space-between;align-items:center;font-size:14px;margin-bottom:12px;}
   .total-row .sum{font-weight:700;font-size:17px;}
-
-  .checkout-btn{
-    width:100%;
-    background:var(--accent);
-    color:#08211d;
-    border:none;
-    border-radius:11px;
-    padding:12px;
-    font-size:14px;
-    font-weight:700;
-    cursor:pointer;
-  }
-  .checkout-btn:disabled{opacity:0.4;cursor:not-allowed;}
+  .checkout-btn{width:100%;background:var(--accent);color:#08211d;border:none;border-radius:11px;padding:12px;font-size:14px;font-weight:700;cursor:pointer;}
+  .checkout-btn:disabled{opacity:.4;cursor:not-allowed;}
   .checkout-btn:not(:disabled):hover{filter:brightness(1.08);}
-
-  .demo-note{
-    font-size:11px;
-    color:var(--sub);
-    text-align:center;
-    margin-top:10px;
-  }
-
-  .toast{
-    position:fixed;
-    left:50%;
-    bottom:calc(24px + env(safe-area-inset-bottom,0px));
-    transform:translate(-50%,20px);
-    background:var(--panel);
-    border:1px solid var(--line);
-    color:var(--text);
-    padding:12px 18px;
-    border-radius:11px;
-    font-size:13px;
-    opacity:0;
-    pointer-events:none;
-    transition:opacity .2s ease, transform .2s ease;
-    z-index:30;
-    max-width:90%;
-    text-align:center;
-  }
+  .demo-note{font-size:11px;color:var(--sub);text-align:center;margin-top:10px;}
+  .toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);background:var(--panel);border:1px solid var(--line);color:var(--text);padding:12px 18px;border-radius:11px;font-size:13px;opacity:0;pointer-events:none;transition:opacity .2s ease,transform .2s ease;z-index:30;max-width:90%;text-align:center;}
   .toast.show{opacity:1;transform:translate(-50%,0);}
-
   button:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
 </style>
 </head>
@@ -296,19 +97,50 @@
 
 <header>
   <div class="brand">
-    <div class="brand-icon">GC</div>
-    <div class="brand-name">Game Currency Shop</div>
+    <svg class="brand-icon" viewBox="0 0 48 48" role="img" aria-label="Логотип Game Currency Shop">
+      <defs><linearGradient id="logoGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5eead4"/><stop offset="1" stop-color="#245751"/></linearGradient></defs>
+      <rect width="48" height="48" rx="12" fill="url(#logoGrad)"/>
+      <polygon points="24,9 37,20 24,39 11,20" fill="#08211d"/>
+      <polygon points="24,9 30,20 24,39 18,20" fill="#5eead4"/>
+      <polygon points="24,9 18,20 11,20" fill="#2f8f82"/>
+      <line x1="11" y1="20" x2="37" y2="20" stroke="#5eead4" stroke-width="1.2"/>
+    </svg>
+    <div class="brand-text">
+      <div class="brand-name">Game Currency Shop</div>
+      <div class="brand-tag">Steam · валюта · подписки</div>
+    </div>
   </div>
-  <button class="cart-btn" id="cartBtn">
-    🛒 Корзина
-    <span class="cart-badge" id="cartBadge">0</span>
-  </button>
+  <button class="cart-btn" id="cartBtn">🛒 Корзина <span class="cart-badge" id="cartBadge">0</span></button>
 </header>
 
 <main>
   <h1>Каталог товаров</h1>
-  <p class="subtitle">Внутриигровая валюта и пополнение баланса</p>
-  <div class="grid" id="grid"></div>
+  <p class="subtitle">Пополнение Steam, внутриигровая валюта, подарочные карты и подписки</p>
+  <div class="tools">
+    <input class="search" id="search" type="search" placeholder="Поиск: Steam, Roblox, Valorant…">
+    <div class="chips" id="chips"></div>
+  </div>
+  <section class="custom" id="custom">
+    <div class="custom-text">
+      <div class="custom-title">🎮 Пополнение Steam на свою сумму</div>
+      <div class="custom-sub">Введите любую сумму от 1 до 1000 $</div>
+    </div>
+    <div class="custom-form">
+      <div class="amount-wrap">
+        <input id="amount" type="number" inputmode="decimal" min="1" max="1000" step="0.01" placeholder="Сумма" aria-label="Сумма пополнения">
+        <span>$</span>
+      </div>
+      <button class="buy-btn" id="customBtn">В корзину</button>
+    </div>
+    <div class="quick" id="quick">
+      <button class="chip" data-q="15">15 $</button>
+      <button class="chip" data-q="30">30 $</button>
+      <button class="chip" data-q="75">75 $</button>
+      <button class="chip" data-q="200">200 $</button>
+      <span class="custom-sum" id="customSum"></span>
+    </div>
+  </section>
+  <div id="catalog"></div>
 </main>
 
 <div class="overlay" id="overlay"></div>
@@ -319,10 +151,7 @@
   </div>
   <div class="cart-items" id="cartItems"></div>
   <div class="drawer-foot">
-    <div class="total-row">
-      <span>Итого</span>
-      <span class="sum" id="totalSum">0 ₽</span>
-    </div>
+    <div class="total-row"><span>Итого</span><span class="sum" id="totalSum">0 $</span></div>
     <button class="checkout-btn" id="checkoutBtn" disabled>Оформить заказ</button>
     <div class="demo-note">Демо-интерфейс — оплата не выполняется</div>
   </div>
@@ -331,34 +160,87 @@
 <div class="toast" id="toast"></div>
 
 <script>
-  const products = [
-    { id:1, icon:'🪙', name:'Золотые монеты x1000', desc:'Базовая валюта для покупок в игре', price:4.99 },
-    { id:2, icon:'💎', name:'Кристаллы x500', desc:'Премиум-валюта, редкие предметы', price:9.99 },
-    { id:3, icon:'💳', name:'Пополнение баланса 10$', desc:'Зачисление на игровой счёт', price:10.00 },
-    { id:4, icon:'🪙', name:'Золотые монеты x5000', desc:'Выгоднее при покупке большим пакетом', price:19.99 },
-    { id:5, icon:'💎', name:'Кристаллы x1500', desc:'Премиум-валюта, редкие предметы', price:24.99 },
-    { id:6, icon:'🎁', name:'Стартовый набор', desc:'Монеты + кристаллы для новичков', price:14.99 },
+  // Категории: ключ -> название
+  const categories = {
+    steam:'Steam', pc:'ПК-игры', mobile:'Мобильные игры', console:'Консоли и подписки', bundle:'Наборы'
+  };
+
+  // [иконка, название, описание, цена, категория] — id = порядковый номер
+  const raw = [
+    // Steam
+    ['🎮','Steam пополнение 5$','Кошелёк Steam, мгновенное зачисление',5,'steam'],
+    ['🎮','Steam пополнение 10$','Кошелёк Steam, мгновенное зачисление',10,'steam'],
+    ['🎮','Steam пополнение 25$','Кошелёк Steam, мгновенное зачисление',25,'steam'],
+    ['🎮','Steam пополнение 50$','Кошелёк Steam, мгновенное зачисление',50,'steam'],
+    ['🎮','Steam пополнение 100$','Для больших распродаж и подарков',100,'steam'],
+    // ПК
+    ['🎯','Valorant 1000 VP','Валюта Valorant Points для скинов',9.99,'pc'],
+    ['🎯','Valorant 2050 VP','Выгоднее при покупке большим пакетом',19.99,'pc'],
+    ['⚔️','League of Legends 1380 RP','Riot Points для чемпионов и скинов',9.99,'pc'],
+    ['🌌','Genshin Impact 980 кристаллов','Кристаллы Genesis для молитв',14.99,'pc'],
+    ['🌌','Genshin Impact 3280 кристаллов','Большой пакет Genesis Crystals',49.99,'pc'],
+    ['🚂','Honkai: Star Rail 1090 шардов','Oneiric Shards для билетов',14.99,'pc'],
+    ['🛡️','Fortnite 1000 V-Bucks','Для боевого пропуска и предметов',8.99,'pc'],
+    ['🛡️','Fortnite 2800 V-Bucks','Выгодный пакет V-Bucks',22.99,'pc'],
+    ['🧱','Roblox 800 Robux','Робуксы для предметов и игр',9.99,'pc'],
+    ['🧱','Roblox 1700 Robux','Увеличенный пакет Robux',19.99,'pc'],
+    ['🔺','Apex Legends 1000 монет','Apex Coins для скинов и пропуска',9.99,'pc'],
+    ['🔫','Call of Duty 1100 CP','Очки CP для боевого пропуска',9.99,'pc'],
+    ['🛠️','World of Tanks 2500 золота','Золото для премиума и танков',19.99,'pc'],
+    ['⛏️','Minecraft 1720 Minecoins','Скины, миры и текстуры в Bazaar',14.99,'pc'],
+    ['❄️','Battle.net 20$','Подарочная карта Blizzard',20,'pc'],
+    ['🛒','Epic Games 25$','Карта пополнения магазина Epic',25,'pc'],
+    // Мобильные
+    ['🪖','PUBG Mobile 660 UC','Unknown Cash для скинов и пропуска',9.99,'mobile'],
+    ['🪖','PUBG Mobile 1800 UC','Большой пакет UC',24.99,'mobile'],
+    ['🔥','Free Fire 530 алмазов','Алмазы для персонажей и скинов',4.99,'mobile'],
+    ['🔥','Free Fire 1080 алмазов','Выгоднее при покупке пакета',9.99,'mobile'],
+    ['🗡️','Mobile Legends 257 алмазов','Алмазы для героев и скинов',4.99,'mobile'],
+    ['🗡️','Mobile Legends 878 алмазов','Крупный пакет алмазов',14.99,'mobile'],
+    ['⭐','Brawl Stars 170 гемов','Гемы для бойцов и пропуска',9.99,'mobile'],
+    ['🏰','Clash of Clans 2500 гемов','Гемы для ускорения и строек',19.99,'mobile'],
+    ['👑','Clash Royale 1200 гемов','Гемы для сундуков и карт',9.99,'mobile'],
+    ['🔪','Standoff 2 1000 золота','Gold для скинов и кейсов',9.99,'mobile'],
+    ['▶️','Google Play 10$','Подарочная карта Google Play',10,'mobile'],
+    ['🍎','App Store и iTunes 10$','Подарочная карта Apple',10,'mobile'],
+    // Консоли и подписки
+    ['🎧','PlayStation Store 10$','Пополнение кошелька PSN',10,'console'],
+    ['🎧','PlayStation Store 25$','Пополнение кошелька PSN',25,'console'],
+    ['🎧','PlayStation Store 50$','Пополнение кошелька PSN',50,'console'],
+    ['🟢','Xbox 10$','Подарочная карта Xbox',10,'console'],
+    ['🟢','Xbox 25$','Подарочная карта Xbox',25,'console'],
+    ['🔴','Nintendo eShop 20$','Пополнение кошелька Nintendo',20,'console'],
+    ['🟢','Xbox Game Pass Ultimate 1 мес.','Сотни игр по подписке',16.99,'console'],
+    ['🎧','PlayStation Plus Essential 1 мес.','Онлайн-игра и ежемесячные игры',9.99,'console'],
+    // Наборы
+    ['🪙','Золотые монеты x1000','Базовая валюта для покупок в игре',4.99,'bundle'],
+    ['💎','Кристаллы x500','Премиум-валюта, редкие предметы',9.99,'bundle'],
+    ['🪙','Золотые монеты x5000','Выгоднее при покупке большим пакетом',19.99,'bundle'],
+    ['💎','Кристаллы x1500','Премиум-валюта, редкие предметы',24.99,'bundle'],
+    ['🎁','Стартовый набор','Монеты + кристаллы для новичков',14.99,'bundle'],
   ];
+  const products = raw.map((r,i) => ({id:i+1, icon:r[0], name:r[1], desc:r[2], price:r[3], cat:r[4]}));
 
   const cart = {};
+  let activeCat = 'all';
+  let query = '';
 
-  const grid = document.getElementById('grid');
-  const cartBtn = document.getElementById('cartBtn');
-  const closeBtn = document.getElementById('closeBtn');
-  const overlay = document.getElementById('overlay');
-  const drawer = document.getElementById('drawer');
-  const cartItemsEl = document.getElementById('cartItems');
-  const cartBadge = document.getElementById('cartBadge');
-  const totalSumEl = document.getElementById('totalSum');
-  const checkoutBtn = document.getElementById('checkoutBtn');
-  const toast = document.getElementById('toast');
+  const $ = id => document.getElementById(id);
+  const catalog = $('catalog'), chipsEl = $('chips'), searchEl = $('search');
+  const cartBtn = $('cartBtn'), closeBtn = $('closeBtn'), overlay = $('overlay'), drawer = $('drawer');
+  const cartItemsEl = $('cartItems'), cartBadge = $('cartBadge'), totalSumEl = $('totalSum');
+  const checkoutBtn = $('checkoutBtn'), toast = $('toast');
 
-  function fmt(n){
-    return n.toFixed(2).replace(/\.00$/, '') + ' $';
+  function fmt(n){ return n.toFixed(2).replace(/\.00$/, '') + ' $'; }
+
+  function renderChips(){
+    const all = {all:'Все', ...categories};
+    chipsEl.innerHTML = Object.entries(all).map(([k,v]) =>
+      `<button class="chip ${k===activeCat?'active':''}" data-cat="${k}">${v}</button>`).join('');
   }
 
-  function renderGrid(){
-    grid.innerHTML = products.map(p => `
+  function cardHtml(p){
+    return `
       <div class="card">
         <div class="card-icon">${p.icon}</div>
         <div class="card-name">${p.name}</div>
@@ -367,14 +249,29 @@
           <span class="price">${fmt(p.price)}</span>
           <button class="buy-btn" data-id="${p.id}">Купить</button>
         </div>
-      </div>
-    `).join('');
+      </div>`;
   }
 
-  function cartCount(){
-    return Object.values(cart).reduce((s,q) => s+q, 0);
+  function renderCatalog(){
+    const q = query.trim().toLowerCase();
+    $('custom').hidden = !((activeCat === 'all' || activeCat === 'steam') && (!q || 'steam стим пополнение'.includes(q)));
+    const list = products.filter(p =>
+      !p.hidden && (activeCat === 'all' || p.cat === activeCat) &&
+      (!q || (p.name + ' ' + p.desc).toLowerCase().includes(q)));
+
+    if(!list.length){
+      catalog.innerHTML = '<div class="no-results">Ничего не найдено</div>';
+      return;
+    }
+    catalog.innerHTML = Object.entries(categories).map(([key, title]) => {
+      const items = list.filter(p => p.cat === key);
+      if(!items.length) return '';
+      return `<div class="group-title">${title} · ${items.length}</div>
+              <div class="grid">${items.map(cardHtml).join('')}</div>`;
+    }).join('');
   }
 
+  function cartCount(){ return Object.values(cart).reduce((s,q) => s+q, 0); }
   function cartTotal(){
     return Object.entries(cart).reduce((s,[id,q]) => {
       const p = products.find(x => x.id == id);
@@ -385,8 +282,7 @@
   function renderCart(){
     const ids = Object.keys(cart).filter(id => cart[id] > 0);
     cartBadge.textContent = cartCount();
-
-    if(ids.length === 0){
+    if(!ids.length){
       cartItemsEl.innerHTML = '<div class="empty-cart">Корзина пуста</div>';
       checkoutBtn.disabled = true;
     } else {
@@ -406,12 +302,10 @@
               <button data-act="inc" data-id="${p.id}" aria-label="Увеличить">+</button>
             </div>
             <button class="remove-btn" data-act="remove" data-id="${p.id}" aria-label="Удалить">✕</button>
-          </div>
-        `;
+          </div>`;
       }).join('');
       checkoutBtn.disabled = false;
     }
-
     totalSumEl.textContent = fmt(cartTotal());
   }
 
@@ -422,30 +316,32 @@
     showToast._t = setTimeout(() => toast.classList.remove('show'), 2200);
   }
 
-  function openCart(){
-    overlay.classList.add('open');
-    drawer.classList.add('open');
-  }
-  function closeCart(){
-    overlay.classList.remove('open');
-    drawer.classList.remove('open');
-  }
+  function openCart(){ overlay.classList.add('open'); drawer.classList.add('open'); }
+  function closeCart(){ overlay.classList.remove('open'); drawer.classList.remove('open'); }
 
-  grid.addEventListener('click', e => {
+  chipsEl.addEventListener('click', e => {
+    const b = e.target.closest('.chip');
+    if(!b) return;
+    activeCat = b.dataset.cat;
+    renderChips();
+    renderCatalog();
+  });
+
+  searchEl.addEventListener('input', () => { query = searchEl.value; renderCatalog(); });
+
+  catalog.addEventListener('click', e => {
     const btn = e.target.closest('.buy-btn');
     if(!btn) return;
     const id = btn.dataset.id;
     cart[id] = (cart[id] || 0) + 1;
     renderCart();
-    const p = products.find(x => x.id == id);
-    showToast(`Добавлено: ${p.name}`);
+    showToast('Добавлено: ' + products.find(x => x.id == id).name);
   });
 
   cartItemsEl.addEventListener('click', e => {
     const btn = e.target.closest('button[data-act]');
     if(!btn) return;
-    const id = btn.dataset.id;
-    const act = btn.dataset.act;
+    const id = btn.dataset.id, act = btn.dataset.act;
     if(act === 'inc') cart[id] = (cart[id] || 0) + 1;
     if(act === 'dec') cart[id] = Math.max(0, (cart[id] || 0) - 1);
     if(act === 'remove') cart[id] = 0;
@@ -459,13 +355,51 @@
   checkoutBtn.addEventListener('click', () => {
     closeCart();
     showToast('Заказ оформлен (демо — оплата не выполняется)');
-    setTimeout(() => {
-      for(const id in cart) cart[id] = 0;
-      renderCart();
-    }, 400);
+    setTimeout(() => { for(const id in cart) cart[id] = 0; renderCart(); }, 400);
   });
 
-  renderGrid();
+  // Пополнение Steam на произвольную сумму
+  const amountEl = $('amount'), customSum = $('customSum');
+
+  function customAmount(){
+    const v = parseFloat(amountEl.value);
+    return (Number.isFinite(v) && v >= 1 && v <= 1000) ? Math.round(v * 100) / 100 : null;
+  }
+
+  function updateCustomSum(){
+    const a = customAmount();
+    customSum.innerHTML = a === null
+      ? (amountEl.value ? 'Допустимо от 1 до 1000 $' : '')
+      : 'К оплате: <b>' + fmt(a) + '</b>';
+  }
+
+  function addCustom(){
+    const a = customAmount();
+    if(a === null){ showToast('Введите сумму от 1 до 1000 $'); amountEl.focus(); return; }
+    const id = 'c' + a.toFixed(2);
+    const name = 'Steam пополнение ' + fmt(a);
+    if(!products.some(p => p.id === id)){
+      products.push({id, icon:'🎮', name, desc:'Своя сумма', price:a, cat:'steam', hidden:true});
+    }
+    cart[id] = (cart[id] || 0) + 1;
+    renderCart();
+    showToast('Добавлено: ' + name);
+    amountEl.value = '';
+    updateCustomSum();
+  }
+
+  amountEl.addEventListener('input', updateCustomSum);
+  amountEl.addEventListener('keydown', e => { if(e.key === 'Enter') addCustom(); });
+  $('customBtn').addEventListener('click', addCustom);
+  $('quick').addEventListener('click', e => {
+    const b = e.target.closest('[data-q]');
+    if(!b) return;
+    amountEl.value = b.dataset.q;
+    updateCustomSum();
+  });
+
+  renderChips();
+  renderCatalog();
   renderCart();
 </script>
 
