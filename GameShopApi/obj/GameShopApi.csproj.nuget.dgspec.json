@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\PC\\-game-currency-shop\\GameShopApi\\GameShopApi.csproj": {}
+    "C:\\devops\\-game-currency-shop\\GameShopApi\\GameShopApi.csproj": {}
   },
   "projects": {
-    "C:\\Users\\PC\\-game-currency-shop\\GameShopApi\\GameShopApi.csproj": {
+    "C:\\devops\\-game-currency-shop\\GameShopApi\\GameShopApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\PC\\-game-currency-shop\\GameShopApi\\GameShopApi.csproj",
+        "projectUniqueName": "C:\\devops\\-game-currency-shop\\GameShopApi\\GameShopApi.csproj",
         "projectName": "GameShopApi",
-        "projectPath": "C:\\Users\\PC\\-game-currency-shop\\GameShopApi\\GameShopApi.csproj",
+        "projectPath": "C:\\devops\\-game-currency-shop\\GameShopApi\\GameShopApi.csproj",
         "packagesPath": "C:\\Users\\PC\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\PC\\-game-currency-shop\\GameShopApi\\obj\\",
+        "outputPath": "C:\\devops\\-game-currency-shop\\GameShopApi\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\PC\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -46,6 +46,10 @@
             "Npgsql": {
               "target": "Package",
               "version": "[10.0.3, )"
+            },
+            "StackExchange.Redis": {
+              "target": "Package",
+              "version": "[3.4.35, )"
             }
           },
           "imports": [

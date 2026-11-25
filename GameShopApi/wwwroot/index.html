@@ -2,406 +2,369 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Game Currency Shop</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%235eead4'/%3E%3Cstop offset='1' stop-color='%23245751'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='48' height='48' rx='12' fill='url(%23g)'/%3E%3Cpolygon points='24,9 37,20 24,39 11,20' fill='%2308211d'/%3E%3Cpolygon points='24,9 30,20 24,39 18,20' fill='%235eead4'/%3E%3C/svg%3E">
+<link rel="icon" href="/logo.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Silkscreen&display=swap" rel="stylesheet">
 <style>
-  :root{--bg:#0d1117;--panel:#12181f;--panel-2:#161d25;--line:#22303c;--text:#e8edf2;--sub:#7c8a97;--accent:#5eead4;--accent-dim:#245751;--danger:#f87171;}
-  @media (prefers-color-scheme: light){
-    :root:not([data-theme="dark"]){--bg:#f1f4f6;--panel:#fff;--panel-2:#f7f9fa;--line:#dbe2e8;--text:#101418;--sub:#5c6b78;--accent:#0f9b86;--accent-dim:#d3f3ee;--danger:#dc2626;}
-  }
-  *{box-sizing:border-box;}
-  html,body{height:100%;}
-  body{margin:0;background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,-apple-system,sans-serif;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);}
-  header{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;display:flex;align-items:center;justify-content:space-between;padding:16px 20px;background:var(--bg);border-bottom:1px solid var(--line);}
-  .brand{display:flex;align-items:center;gap:12px;}
-  .brand-icon{width:42px;height:42px;display:block;flex-shrink:0;}
-  .brand-text{display:flex;flex-direction:column;line-height:1.15;}
-  .brand-tag{font-size:11px;color:var(--sub);}
-  [hidden]{display:none!important;}
-  .custom{background:var(--panel);border:1px solid var(--accent-dim);border-radius:16px;padding:18px;margin-bottom:8px;display:flex;flex-wrap:wrap;gap:14px;align-items:center;}
-  .custom-text{flex:1 1 220px;}
-  .custom-title{font-size:15px;font-weight:700;}
-  .custom-sub{font-size:12px;color:var(--sub);margin-top:3px;}
-  .custom-form{display:flex;gap:10px;align-items:center;}
-  .amount-wrap{display:flex;align-items:center;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:0 12px;}
-  .amount-wrap:focus-within{border-color:var(--accent);}
-  .amount-wrap input{width:110px;background:none;border:none;outline:none;color:var(--text);font-size:16px;font-weight:600;padding:10px 0;}
-  .amount-wrap span{color:var(--sub);font-weight:600;}
-  .quick{display:flex;gap:8px;flex-wrap:wrap;flex-basis:100%;align-items:center;}
-  .quick .chip{padding:5px 12px;}
-  .custom-sum{font-size:13px;color:var(--sub);margin-left:auto;}
-  .custom-sum b{color:var(--text);}
-  .brand-name{font-weight:600;font-size:16px;}
-  .cart-btn{display:flex;align-items:center;gap:8px;background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:9px 14px;color:var(--text);font-size:14px;cursor:pointer;}
-  .cart-btn:hover{background:var(--panel-2);}
-  .cart-badge{background:var(--accent);color:#08211d;font-size:11px;font-weight:700;min-width:18px;height:18px;border-radius:9px;display:flex;align-items:center;justify-content:center;padding:0 5px;}
-  main{max-width:1080px;margin:0 auto;padding:24px 20px 60px;}
-  h1{font-size:19px;margin:0 0 4px;}
-  .subtitle{color:var(--sub);font-size:13px;margin:0 0 18px;}
-  .tools{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:20px;}
-  .search{flex:1 1 220px;background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:10px 14px;color:var(--text);font-size:14px;outline:none;}
-  .search:focus{border-color:var(--accent);}
-  .chips{display:flex;flex-wrap:wrap;gap:8px;}
-  .chip{background:var(--panel);border:1px solid var(--line);color:var(--sub);border-radius:20px;padding:7px 14px;font-size:13px;cursor:pointer;}
-  .chip:hover{color:var(--text);}
-  .chip.active{background:var(--accent);border-color:var(--accent);color:#08211d;font-weight:600;}
-  .group-title{font-size:14px;color:var(--sub);margin:26px 0 12px;font-weight:600;letter-spacing:.02em;}
-  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:14px;}
-  .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:10px;}
-  .card:hover{border-color:var(--accent-dim);}
-  .card-icon{width:44px;height:44px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:20px;background:var(--panel-2);border:1px solid var(--line);}
-  .card-name{font-size:14px;font-weight:600;line-height:1.3;}
-  .card-desc{font-size:12px;color:var(--sub);flex-grow:1;}
-  .card-bottom{display:flex;align-items:center;justify-content:space-between;margin-top:4px;}
-  .price{font-size:15px;font-weight:700;}
-  .buy-btn{background:var(--accent);color:#08211d;border:none;border-radius:9px;padding:8px 14px;font-size:13px;font-weight:600;cursor:pointer;}
-  .buy-btn:hover{filter:brightness(1.08);}
-  .buy-btn:active{filter:brightness(.94);}
-  .no-results{color:var(--sub);text-align:center;padding:50px 10px;font-size:14px;}
-  .overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);opacity:0;pointer-events:none;transition:opacity .18s ease;z-index:20;}
-  .overlay.open{opacity:1;pointer-events:auto;}
-  .drawer{position:fixed;top:0;right:0;height:100%;width:min(380px,100%);background:var(--panel);border-left:1px solid var(--line);transform:translateX(100%);transition:transform .22s ease;z-index:21;display:flex;flex-direction:column;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);}
-  .drawer.open{transform:translateX(0);}
-  .drawer-head{display:flex;align-items:center;justify-content:space-between;padding:18px 20px;border-bottom:1px solid var(--line);}
-  .drawer-head h2{font-size:16px;margin:0;}
-  .close-btn{background:none;border:none;color:var(--sub);font-size:20px;cursor:pointer;line-height:1;padding:4px;}
-  .close-btn:hover{color:var(--text);}
-  .cart-items{flex-grow:1;overflow-y:auto;padding:12px 20px;}
-  .empty-cart{color:var(--sub);font-size:13px;text-align:center;padding:40px 10px;}
-  .cart-row{display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid var(--line);}
-  .cart-row:last-child{border-bottom:none;}
-  .cart-row-icon{width:34px;height:34px;border-radius:9px;background:var(--panel-2);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
-  .cart-row-info{flex-grow:1;min-width:0;}
-  .cart-row-name{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-  .cart-row-price{font-size:12px;color:var(--sub);}
-  .qty{display:flex;align-items:center;background:var(--bg);border:1px solid var(--line);border-radius:9px;overflow:hidden;}
-  .qty button{width:26px;height:26px;border:none;background:transparent;color:var(--text);font-size:14px;cursor:pointer;}
-  .qty button:hover{background:var(--panel-2);}
-  .qty span{width:22px;text-align:center;font-size:13px;}
-  .remove-btn{background:none;border:none;color:var(--sub);font-size:16px;cursor:pointer;padding:2px 4px;flex-shrink:0;}
-  .remove-btn:hover{color:var(--danger);}
-  .drawer-foot{border-top:1px solid var(--line);padding:16px 20px;}
-  .total-row{display:flex;justify-content:space-between;align-items:center;font-size:14px;margin-bottom:12px;}
-  .total-row .sum{font-weight:700;font-size:17px;}
-  .checkout-btn{width:100%;background:var(--accent);color:#08211d;border:none;border-radius:11px;padding:12px;font-size:14px;font-weight:700;cursor:pointer;}
-  .checkout-btn:disabled{opacity:.4;cursor:not-allowed;}
-  .checkout-btn:not(:disabled):hover{filter:brightness(1.08);}
-  .demo-note{font-size:11px;color:var(--sub);text-align:center;margin-top:10px;}
-  .toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);background:var(--panel);border:1px solid var(--line);color:var(--text);padding:12px 18px;border-radius:11px;font-size:13px;opacity:0;pointer-events:none;transition:opacity .2s ease,transform .2s ease;z-index:30;max-width:90%;text-align:center;}
-  .toast.show{opacity:1;transform:translate(-50%,0);}
-  button:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+:root{--bg:#0c0b14;--panel:#15131f;--line:#2a2540;--text:#ece9f7;--sub:#8b86a3;--violet:#8b5cf6;--teal:#5eead4;--gold:#fbbf24;--px:'Silkscreen','Courier New',monospace}
+*{box-sizing:border-box}[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 'Segoe UI',system-ui,sans-serif}
+h1,h2{margin:0 0 12px;font-family:var(--px);font-weight:400;letter-spacing:.02em}h1{font-size:20px}h2{font-size:15px}
+button,input{font:inherit;color:inherit}
+input{background:var(--bg);border:2px solid var(--line);border-radius:6px;padding:10px 12px;width:100%}
+input:focus{outline:none;border-color:var(--teal)}
+button:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.muted{color:var(--sub)}
+.btn{background:var(--violet);color:#fff;border:2px solid var(--violet);border-radius:6px;padding:9px 16px;font-weight:600;cursor:pointer;white-space:nowrap;box-shadow:3px 3px 0 #4c1d95}
+.btn:hover{background:#9f7bff;border-color:#9f7bff}
+.btn:active{box-shadow:none;transform:translate(3px,3px)}
+.btn:disabled{opacity:.4;cursor:not-allowed;box-shadow:none;transform:none}
+.btn.sm{padding:6px 12px;font-size:13px;box-shadow:2px 2px 0 #4c1d95}
+.btn.ghost{background:none;color:var(--text);border-color:var(--line);box-shadow:none}
+.btn.ghost:hover{border-color:var(--teal)}
+.view{min-height:100vh}
+.auth,.done{display:grid;place-items:center;padding:20px}
+.panel{background:var(--panel);border:2px solid var(--line);border-radius:8px;padding:24px;width:min(460px,92vw)}
+.logo{display:block;width:150px;height:auto;margin:0 auto 14px}
+.side .logo{margin:0 0 12px;width:100%;max-width:170px}
+.tabs{display:flex;gap:6px;margin-bottom:16px}
+.tab{flex:1;background:none;border:2px solid var(--line);border-radius:6px;padding:8px;cursor:pointer;color:var(--sub)}
+.tab.on{border-color:var(--teal);color:var(--text)}
+form{display:grid;gap:10px}#err{color:#f87171;min-height:20px;font-size:13px;margin:0}
+.shop{display:grid;grid-template-columns:230px 1fr}
+.side{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;justify-content:space-between;padding:20px;background:var(--panel);border-right:2px solid var(--line)}
+.brand{font-family:var(--px);font-size:13px;line-height:1.4}
+.me{display:flex;align-items:center;gap:10px;background:var(--bg);border:2px solid var(--line);border-radius:6px;padding:10px;cursor:pointer;text-align:left}
+.me:hover{border-color:var(--violet)}
+.av{width:34px;height:34px;border-radius:4px;background:var(--gold);color:var(--bg);display:grid;place-items:center;font-family:var(--px);font-size:16px}
+main{padding:24px 32px 60px;max-width:1000px}
+.bar{display:flex;gap:12px;margin-bottom:14px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
+.chip{background:none;border:2px solid var(--line);border-radius:4px;padding:4px 12px;cursor:pointer;color:var(--sub)}
+.chip:hover{border-color:var(--violet);color:var(--text)}
+.chip.on{border-color:var(--teal);color:var(--text)}
+.steam{background:linear-gradient(90deg,var(--violet),var(--teal),var(--gold)) top left/100% 4px no-repeat,var(--panel);border:2px solid var(--line);border-radius:6px;padding:22px 18px 18px;margin-bottom:28px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.steam .grow{flex:1;min-width:200px}.steam input{width:120px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px}
+.card{background:var(--panel);border:2px solid var(--line);border-radius:6px;padding:16px;display:flex;flex-direction:column;gap:12px;justify-content:space-between}
+.card:hover{border-color:var(--violet);box-shadow:4px 4px 0 var(--violet)}
+.ico{width:40px;height:40px;border-radius:4px;display:grid;place-items:center;font-family:var(--px);font-size:18px;margin-bottom:10px}
+.ico.c0{background:var(--violet);color:#fff}.ico.c1{background:var(--teal);color:var(--bg)}.ico.c2{background:var(--gold);color:var(--bg)}
+.card-b{display:flex;justify-content:space-between;align-items:center}
+.card-b b,.tot b{font-family:var(--px);font-weight:400;color:var(--gold)}
+.modal{position:fixed;inset:0;background:rgba(6,5,12,.7);display:grid;place-items:center;z-index:10}
+.modal .panel{max-height:82vh;overflow:auto}
+.row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:2px solid var(--line)}.grow{flex:1}
+.row small{display:block;color:var(--sub)}
+.qty{display:flex;align-items:center;gap:8px}
+.qty button{width:26px;height:26px;border-radius:4px;border:2px solid var(--line);background:none;cursor:pointer}
+.qty button:hover{border-color:var(--teal)}
+.acts{display:flex;gap:10px;justify-content:flex-end;margin-top:16px}
+.pay{display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:880px;margin:0 auto;padding:40px 20px;align-items:start}
+.pay .panel{width:auto}
+.opt{display:block;width:100%;text-align:left;background:none;border:2px solid var(--line);border-radius:6px;padding:14px;margin-bottom:10px;cursor:pointer}
+.opt:hover{border-color:var(--teal)}
+.timer{font-family:var(--px);font-size:64px;color:var(--gold);margin:10px 0}
+.tot{font-size:17px;border:0}
+.hist{margin-bottom:18px}.hist .muted{display:block;font-size:13px}
+.top{display:flex;flex-direction:column}
+.nav{display:grid;gap:6px;margin-top:22px}
+.nav-i{display:flex;justify-content:space-between;align-items:center;background:none;border:2px solid transparent;border-radius:6px;padding:9px 10px;cursor:pointer;color:var(--sub);text-align:left}
+.nav-i:hover{color:var(--text);border-color:var(--line)}
+.nav-i.on{color:var(--text);border-color:var(--violet)}
+.pill{background:var(--gold);color:var(--bg);border-radius:4px;padding:0 7px;font-size:12px;font-weight:700}
+.bottom{display:grid;gap:12px}
+.stat{border:2px solid var(--line);border-radius:6px;padding:12px;font-size:13px;display:grid;gap:4px}
+.stat b{font-family:var(--px);font-weight:400;color:var(--gold)}
+.pf{margin-top:18px}.pf .btn{justify-self:start}
 </style>
 </head>
 <body>
 
-<header>
-  <div class="brand">
-    <svg class="brand-icon" viewBox="0 0 48 48" role="img" aria-label="Логотип Game Currency Shop">
-      <defs><linearGradient id="logoGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5eead4"/><stop offset="1" stop-color="#245751"/></linearGradient></defs>
-      <rect width="48" height="48" rx="12" fill="url(#logoGrad)"/>
-      <polygon points="24,9 37,20 24,39 11,20" fill="#08211d"/>
-      <polygon points="24,9 30,20 24,39 18,20" fill="#5eead4"/>
-      <polygon points="24,9 18,20 11,20" fill="#2f8f82"/>
-      <line x1="11" y1="20" x2="37" y2="20" stroke="#5eead4" stroke-width="1.2"/>
-    </svg>
-    <div class="brand-text">
-      <div class="brand-name">Game Currency Shop</div>
-      <div class="brand-tag">Steam · валюта · подписки</div>
+<section id="v-auth" class="view auth">
+  <div class="panel">
+    <img src="/logo.svg" class="logo" alt="GCS"><h1>Game Currency Shop</h1>
+    <p class="muted">Создайте аккаунт или войдите, чтобы открыть каталог.</p>
+    <div class="tabs">
+      <button class="tab on" data-m="login" type="button">Вход</button>
+      <button class="tab" data-m="register" type="button">Регистрация</button>
     </div>
+    <form id="form">
+      <input id="lg" placeholder="Логин" autocomplete="username" required>
+      <input id="pw" type="password" placeholder="Пароль" autocomplete="current-password" required>
+      <p id="err"></p>
+      <button class="btn" id="go">Войти</button>
+    </form>
   </div>
-  <button class="cart-btn" id="cartBtn">🛒 Корзина <span class="cart-badge" id="cartBadge">0</span></button>
-</header>
+</section>
 
-<main>
-  <h1>Каталог товаров</h1>
-  <p class="subtitle">Пополнение Steam, внутриигровая валюта, подарочные карты и подписки</p>
-  <div class="tools">
-    <input class="search" id="search" type="search" placeholder="Поиск: Steam, Roblox, Valorant…">
+<section id="v-shop" class="view shop" hidden>
+  <aside class="side">
+    <div class="top"><img src="/logo.svg" class="logo" alt="GCS"><div class="brand">Game Currency Shop</div>
+      <nav class="nav">
+        <button class="nav-i on" data-go="top">Каталог</button>
+        <button class="nav-i" data-go="cart">Корзина <span class="pill" id="navCnt">0</span></button>
+        <button class="nav-i" data-go="hist">Мои покупки</button>
+        <button class="nav-i" data-go="steam">Пополнить Steam</button>
+      </nav></div>
+    <div class="bottom">
+      <div class="stat"><span class="muted">Ваша статистика</span><span>Заказов: <b id="stOrd">0</b></span><span>Потрачено: <b id="stSp">$0.00</b></span></div>
+      <button class="me" id="me"><span class="av" id="av"></span><span id="meName"></span></button>
+    </div>
+  </aside>
+  <main>
+    <div class="bar">
+      <input id="q" placeholder="Найти игру">
+      <button class="btn ghost" id="cartBtn">Корзина (<span id="cnt">0</span>)</button>
+    </div>
     <div class="chips" id="chips"></div>
-  </div>
-  <section class="custom" id="custom">
-    <div class="custom-text">
-      <div class="custom-title">🎮 Пополнение Steam на свою сумму</div>
-      <div class="custom-sub">Введите любую сумму от 1 до 1000 $</div>
+    <div class="steam">
+      <div class="grow"><h2>Пополнение Steam</h2><span class="muted">Введите любую сумму от $1 до $1000</span></div>
+      <input id="steamAmt" type="number" min="1" max="1000" step="1" value="10">
+      <button class="btn" id="steamBtn">В корзину</button>
     </div>
-    <div class="custom-form">
-      <div class="amount-wrap">
-        <input id="amount" type="number" inputmode="decimal" min="1" max="1000" step="0.01" placeholder="Сумма" aria-label="Сумма пополнения">
-        <span>$</span>
-      </div>
-      <button class="buy-btn" id="customBtn">В корзину</button>
-    </div>
-    <div class="quick" id="quick">
-      <button class="chip" data-q="15">15 $</button>
-      <button class="chip" data-q="30">30 $</button>
-      <button class="chip" data-q="75">75 $</button>
-      <button class="chip" data-q="200">200 $</button>
-      <span class="custom-sum" id="customSum"></span>
-    </div>
-  </section>
-  <div id="catalog"></div>
-</main>
+    <h2>Каталог</h2>
+    <div class="grid" id="grid"></div>
+  </main>
+</section>
 
-<div class="overlay" id="overlay"></div>
-<aside class="drawer" id="drawer">
-  <div class="drawer-head">
+<section id="v-pay" class="view pay" hidden>
+  <div class="panel"><h2>Ваш заказ</h2><div id="sum"></div></div>
+  <div class="panel" id="payBox"></div>
+</section>
+
+<section id="v-done" class="view done" hidden>
+  <div class="panel">
+    <h1>Заказ оплачен</h1>
+    <p class="muted" id="doneInfo"></p>
+    <div class="acts"><button class="btn" id="home">На главную</button></div>
+  </div>
+</section>
+
+<div class="modal" id="cartM" hidden>
+  <div class="panel">
     <h2>Корзина</h2>
-    <button class="close-btn" id="closeBtn" aria-label="Закрыть">✕</button>
+    <div id="cartList"></div>
+    <div class="row tot"><span class="grow">Итого</span><b id="cartTotal"></b></div>
+    <div class="acts">
+      <button class="btn ghost" id="cartClose">Закрыть</button>
+      <button class="btn" id="toPay">Перейти к оплате</button>
+    </div>
   </div>
-  <div class="cart-items" id="cartItems"></div>
-  <div class="drawer-foot">
-    <div class="total-row"><span>Итого</span><span class="sum" id="totalSum">0 $</span></div>
-    <button class="checkout-btn" id="checkoutBtn" disabled>Оформить заказ</button>
-    <div class="demo-note">Демо-интерфейс — оплата не выполняется</div>
-  </div>
-</aside>
+</div>
 
-<div class="toast" id="toast"></div>
+<div class="modal" id="meM" hidden>
+  <div class="panel">
+    <h2>Мои покупки</h2>
+    <div id="hist"></div>
+    <div class="acts">
+      <button class="btn" id="meClose">Закрыть</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="pfM" hidden>
+  <div class="panel">
+    <h2>Профиль</h2>
+    <div class="row"><span class="grow muted">Логин</span><b id="pfLogin"></b></div>
+    <div class="row"><span class="grow muted">В магазине с</span><b id="pfSince"></b></div>
+    <div class="row"><span class="grow muted">Заказов / потрачено</span><b id="pfStat"></b></div>
+    <form id="pfName" class="pf"><h2>Сменить логин</h2><input id="nl" placeholder="Новый логин" required><button class="btn sm">Сохранить логин</button></form>
+    <form id="pfPass" class="pf"><h2>Сменить пароль</h2><input id="op" type="password" placeholder="Старый пароль" required><input id="np" type="password" placeholder="Новый пароль" required><button class="btn sm">Сохранить пароль</button></form>
+    <p id="pfMsg" class="muted"></p>
+    <div class="acts"><button class="btn ghost" id="out">Выйти из аккаунта</button><button class="btn" id="pfClose">Закрыть</button></div>
+  </div>
+</div>
 
 <script>
-  // Категории: ключ -> название
-  const categories = {
-    steam:'Steam', pc:'ПК-игры', mobile:'Мобильные игры', console:'Консоли и подписки', bundle:'Наборы'
-  };
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const fmt=n=>'$'+Number(n).toFixed(2);
+const GAMES=['Genshin Impact','Honkai: Star Rail','Fortnite','Roblox','PUBG Mobile','Valorant','Dota 2','Counter-Strike 2','Minecraft','World of Tanks'];
+const ICO={currency:'🪙',pass:'🎟️',topup:'💳'};
+const METHODS={
+  card:['Банковская карта',[['Номер карты','4276 0000 0000 0000'],['Получатель','Game Currency Shop']]],
+  sbp:['СБП',[['Телефон','+7 900 000-00-00'],['Банк','Демо-банк']]],
+  crypto:['Криптовалюта (USDT)',[['Сеть','TRC-20'],['Адрес','TDemo000000000000000000000000000']]]
+};
+let token=localStorage.getItem('token'),login=localStorage.getItem('login'),products=[],cart=[],mode='login',method=null,ref='';
 
-  // [иконка, название, описание, цена, категория] — id = порядковый номер
-  const raw = [
-    // Steam
-    ['🎮','Steam пополнение 5$','Кошелёк Steam, мгновенное зачисление',5,'steam'],
-    ['🎮','Steam пополнение 10$','Кошелёк Steam, мгновенное зачисление',10,'steam'],
-    ['🎮','Steam пополнение 25$','Кошелёк Steam, мгновенное зачисление',25,'steam'],
-    ['🎮','Steam пополнение 50$','Кошелёк Steam, мгновенное зачисление',50,'steam'],
-    ['🎮','Steam пополнение 100$','Для больших распродаж и подарков',100,'steam'],
-    // ПК
-    ['🎯','Valorant 1000 VP','Валюта Valorant Points для скинов',9.99,'pc'],
-    ['🎯','Valorant 2050 VP','Выгоднее при покупке большим пакетом',19.99,'pc'],
-    ['⚔️','League of Legends 1380 RP','Riot Points для чемпионов и скинов',9.99,'pc'],
-    ['🌌','Genshin Impact 980 кристаллов','Кристаллы Genesis для молитв',14.99,'pc'],
-    ['🌌','Genshin Impact 3280 кристаллов','Большой пакет Genesis Crystals',49.99,'pc'],
-    ['🚂','Honkai: Star Rail 1090 шардов','Oneiric Shards для билетов',14.99,'pc'],
-    ['🛡️','Fortnite 1000 V-Bucks','Для боевого пропуска и предметов',8.99,'pc'],
-    ['🛡️','Fortnite 2800 V-Bucks','Выгодный пакет V-Bucks',22.99,'pc'],
-    ['🧱','Roblox 800 Robux','Робуксы для предметов и игр',9.99,'pc'],
-    ['🧱','Roblox 1700 Robux','Увеличенный пакет Robux',19.99,'pc'],
-    ['🔺','Apex Legends 1000 монет','Apex Coins для скинов и пропуска',9.99,'pc'],
-    ['🔫','Call of Duty 1100 CP','Очки CP для боевого пропуска',9.99,'pc'],
-    ['🛠️','World of Tanks 2500 золота','Золото для премиума и танков',19.99,'pc'],
-    ['⛏️','Minecraft 1720 Minecoins','Скины, миры и текстуры в Bazaar',14.99,'pc'],
-    ['❄️','Battle.net 20$','Подарочная карта Blizzard',20,'pc'],
-    ['🛒','Epic Games 25$','Карта пополнения магазина Epic',25,'pc'],
-    // Мобильные
-    ['🪖','PUBG Mobile 660 UC','Unknown Cash для скинов и пропуска',9.99,'mobile'],
-    ['🪖','PUBG Mobile 1800 UC','Большой пакет UC',24.99,'mobile'],
-    ['🔥','Free Fire 530 алмазов','Алмазы для персонажей и скинов',4.99,'mobile'],
-    ['🔥','Free Fire 1080 алмазов','Выгоднее при покупке пакета',9.99,'mobile'],
-    ['🗡️','Mobile Legends 257 алмазов','Алмазы для героев и скинов',4.99,'mobile'],
-    ['🗡️','Mobile Legends 878 алмазов','Крупный пакет алмазов',14.99,'mobile'],
-    ['⭐','Brawl Stars 170 гемов','Гемы для бойцов и пропуска',9.99,'mobile'],
-    ['🏰','Clash of Clans 2500 гемов','Гемы для ускорения и строек',19.99,'mobile'],
-    ['👑','Clash Royale 1200 гемов','Гемы для сундуков и карт',9.99,'mobile'],
-    ['🔪','Standoff 2 1000 золота','Gold для скинов и кейсов',9.99,'mobile'],
-    ['▶️','Google Play 10$','Подарочная карта Google Play',10,'mobile'],
-    ['🍎','App Store и iTunes 10$','Подарочная карта Apple',10,'mobile'],
-    // Консоли и подписки
-    ['🎧','PlayStation Store 10$','Пополнение кошелька PSN',10,'console'],
-    ['🎧','PlayStation Store 25$','Пополнение кошелька PSN',25,'console'],
-    ['🎧','PlayStation Store 50$','Пополнение кошелька PSN',50,'console'],
-    ['🟢','Xbox 10$','Подарочная карта Xbox',10,'console'],
-    ['🟢','Xbox 25$','Подарочная карта Xbox',25,'console'],
-    ['🔴','Nintendo eShop 20$','Пополнение кошелька Nintendo',20,'console'],
-    ['🟢','Xbox Game Pass Ultimate 1 мес.','Сотни игр по подписке',16.99,'console'],
-    ['🎧','PlayStation Plus Essential 1 мес.','Онлайн-игра и ежемесячные игры',9.99,'console'],
-    // Наборы
-    ['🪙','Золотые монеты x1000','Базовая валюта для покупок в игре',4.99,'bundle'],
-    ['💎','Кристаллы x500','Премиум-валюта, редкие предметы',9.99,'bundle'],
-    ['🪙','Золотые монеты x5000','Выгоднее при покупке большим пакетом',19.99,'bundle'],
-    ['💎','Кристаллы x1500','Премиум-валюта, редкие предметы',24.99,'bundle'],
-    ['🎁','Стартовый набор','Монеты + кристаллы для новичков',14.99,'bundle'],
-  ];
-  const products = raw.map((r,i) => ({id:i+1, icon:r[0], name:r[1], desc:r[2], price:r[3], cat:r[4]}));
+async function api(url,opt={}){
+  const r=await fetch(url,{method:opt.method||'GET',headers:{'Content-Type':'application/json',...(token?{Authorization:'Bearer '+token}:{})},body:opt.body?JSON.stringify(opt.body):undefined});
+  const d=await r.json().catch(()=>({}));
+  if(!r.ok) throw Object.assign(new Error(d.error||'Что-то пошло не так'),{status:r.status});
+  return d;
+}
+const show=id=>document.querySelectorAll('.view').forEach(v=>v.hidden=v.id!==id);
 
-  const cart = {};
-  let activeCat = 'all';
-  let query = '';
+// вход и регистрация
+document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{
+  mode=t.dataset.m;
+  document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('on',x===t));
+  $('#go').textContent=mode==='login'?'Войти':'Создать аккаунт';
+  $('#err').textContent='';
+});
+$('#form').onsubmit=async e=>{
+  e.preventDefault();
+  try{
+    const d=await api('/api/'+mode,{method:'POST',body:{login:$('#lg').value,password:$('#pw').value}});
+    token=d.token;login=d.login;
+    localStorage.setItem('token',token);localStorage.setItem('login',login);
+    enter();
+  }catch(x){$('#err').textContent=x.message;}
+};
+function logout(){
+  token=null;cart=[];drawCart();
+  localStorage.removeItem('token');localStorage.removeItem('login');
+  $('#meM').hidden=$('#pfM').hidden=true;$('#pw').value='';show('v-auth');
+}
+$('#out').onclick=logout;
 
-  const $ = id => document.getElementById(id);
-  const catalog = $('catalog'), chipsEl = $('chips'), searchEl = $('search');
-  const cartBtn = $('cartBtn'), closeBtn = $('closeBtn'), overlay = $('overlay'), drawer = $('drawer');
-  const cartItemsEl = $('cartItems'), cartBadge = $('cartBadge'), totalSumEl = $('totalSum');
-  const checkoutBtn = $('checkoutBtn'), toast = $('toast');
+// главная
+async function enter(){
+  $('#av').textContent=login[0].toUpperCase();$('#meName').textContent=login;
+  show('v-shop');
+  if(!products.length) products=await fetch('/products').then(r=>r.json());
+  renderChips();renderGrid();drawCart();loadMe().catch(()=>{});
+}
+function renderChips(){
+  $('#chips').innerHTML=GAMES.map(g=>`<button class="chip${$('#q').value===g?' on':''}" data-g="${esc(g)}">${esc(g)}</button>`).join('');
+}
+function renderGrid(){
+  const q=$('#q').value.toLowerCase();
+  const l=products.filter(p=>p.name.toLowerCase().includes(q));
+  $('#grid').innerHTML=l.length?l.map(p=>`<div class="card"><div><div class="ico c${p.id%3}">${esc(p.name[0])}</div>${esc(p.name)}</div><div class="card-b"><b>${fmt(p.price)}</b><button class="btn sm" data-id="${p.id}">В корзину</button></div></div>`).join(''):'<p class="muted">Ничего не найдено. Попробуйте другое название игры.</p>';
+}
+$('#chips').onclick=e=>{
+  const b=e.target.closest('.chip');if(!b)return;
+  $('#q').value=$('#q').value===b.dataset.g?'':b.dataset.g;
+  renderChips();renderGrid();
+};
+$('#q').oninput=()=>{renderChips();renderGrid();};
+$('#grid').onclick=e=>{
+  const b=e.target.closest('[data-id]');if(!b)return;
+  const p=products.find(x=>x.id==b.dataset.id);
+  add({key:'p'+p.id,name:p.name,price:p.price});
+};
+$('#steamBtn').onclick=()=>{
+  const a=Number($('#steamAmt').value);
+  if(!(a>=1&&a<=1000)){$('#steamAmt').focus();return;}
+  add({key:'steam'+a,name:'Пополнение Steam',price:a});
+};
+$('#home').onclick=()=>show('v-shop');
 
-  function fmt(n){ return n.toFixed(2).replace(/\.00$/, '') + ' $'; }
+// корзина
+const total=()=>cart.reduce((s,i)=>s+i.price*i.qty,0);
+function add(it){const c=cart.find(x=>x.key===it.key);c?c.qty=Math.min(99,c.qty+1):cart.push({...it,qty:1});drawCart();}
+function drawCart(){
+  const n=cart.reduce((s,i)=>s+i.qty,0);$('#cnt').textContent=n;$('#navCnt').textContent=n;
+  $('#cartList').innerHTML=cart.length?cart.map((i,n)=>`<div class="row"><span class="grow">${esc(i.name)}<small>${fmt(i.price)}</small></span><span class="qty"><button data-a="-" data-n="${n}">−</button>${i.qty}<button data-a="+" data-n="${n}">+</button></span></div>`).join(''):'<p class="muted">Корзина пуста. Добавьте товары из каталога.</p>';
+  $('#cartTotal').textContent=fmt(total());
+  $('#toPay').disabled=!cart.length;
+}
+$('#cartList').onclick=e=>{
+  const b=e.target.closest('[data-a]');if(!b)return;
+  const i=cart[b.dataset.n];i.qty=Math.min(99,i.qty+(b.dataset.a==='+'?1:-1));
+  if(i.qty<1)cart.splice(b.dataset.n,1);
+  drawCart();
+};
+$('#cartBtn').onclick=()=>$('#cartM').hidden=false;
+$('#cartClose').onclick=()=>$('#cartM').hidden=true;
 
-  function renderChips(){
-    const all = {all:'Все', ...categories};
-    chipsEl.innerHTML = Object.entries(all).map(([k,v]) =>
-      `<button class="chip ${k===activeCat?'active':''}" data-cat="${k}">${v}</button>`).join('');
-  }
-
-  function cardHtml(p){
-    return `
-      <div class="card">
-        <div class="card-icon">${p.icon}</div>
-        <div class="card-name">${p.name}</div>
-        <div class="card-desc">${p.desc}</div>
-        <div class="card-bottom">
-          <span class="price">${fmt(p.price)}</span>
-          <button class="buy-btn" data-id="${p.id}">Купить</button>
-        </div>
-      </div>`;
-  }
-
-  function renderCatalog(){
-    const q = query.trim().toLowerCase();
-    $('custom').hidden = !((activeCat === 'all' || activeCat === 'steam') && (!q || 'steam стим пополнение'.includes(q)));
-    const list = products.filter(p =>
-      !p.hidden && (activeCat === 'all' || p.cat === activeCat) &&
-      (!q || (p.name + ' ' + p.desc).toLowerCase().includes(q)));
-
-    if(!list.length){
-      catalog.innerHTML = '<div class="no-results">Ничего не найдено</div>';
-      return;
+// оплата (муляж)
+$('#toPay').onclick=()=>{
+  $('#cartM').hidden=true;method=null;
+  ref='GC-'+Math.floor(1000+Math.random()*9000);
+  $('#sum').innerHTML=cart.map(i=>`<div class="row"><span class="grow">${esc(i.name)} × ${i.qty}</span><b>${fmt(i.price*i.qty)}</b></div>`).join('')+`<div class="row tot"><span class="grow">К оплате</span><b>${fmt(total())}</b></div>`;
+  renderMethods();show('v-pay');
+};
+function renderMethods(){
+  $('#payBox').innerHTML='<h2>Способ оплаты</h2>'+Object.entries(METHODS).map(([k,m])=>`<button class="opt" data-k="${k}">${m[0]}</button>`).join('')+'<div class="acts"><button class="btn ghost" id="cancel">Вернуться в магазин</button></div>';
+}
+function renderReq(k){
+  method=k;const m=METHODS[k];
+  $('#payBox').innerHTML=`<h2>${m[0]}</h2><p class="muted">Переведите сумму по этим реквизитам.</p>`+[...m[1],['Сумма',fmt(total())],['Комментарий',ref]].map(([a,b])=>`<div class="row"><span class="grow muted">${a}</span><b>${esc(b)}</b></div>`).join('')+'<div class="acts"><button class="btn ghost" id="back">Другой способ</button><button class="btn" id="paid">Я оплатил</button></div>';
+}
+function startTimer(){
+  let s=5;
+  const draw=()=>{$('#payBox').innerHTML=`<h2>Ждём подтверждение банка</h2><div class="timer">${s}</div><p class="muted">Не закрывайте страницу.</p>`;};
+  draw();
+  const iv=setInterval(async()=>{
+    s--;if(s>0)return draw();
+    clearInterval(iv);
+    try{
+      const d=await api('/api/pay',{method:'POST',body:{method:METHODS[method][0],items:cart.map(({name,price,qty})=>({name,price,qty}))}});
+      $('#doneInfo').textContent=`Заказ №${d.id} на сумму ${fmt(d.total)}`;
+      cart=[];drawCart();show('v-done');loadMe().catch(()=>{});
+    }catch(x){
+      if(x.status===401)return logout();
+      $('#payBox').innerHTML=`<h2>Не удалось оплатить</h2><p class="muted">${esc(x.message)}</p><div class="acts"><button class="btn" id="back">Назад</button></div>`;
     }
-    catalog.innerHTML = Object.entries(categories).map(([key, title]) => {
-      const items = list.filter(p => p.cat === key);
-      if(!items.length) return '';
-      return `<div class="group-title">${title} · ${items.length}</div>
-              <div class="grid">${items.map(cardHtml).join('')}</div>`;
-    }).join('');
-  }
+  },1000);
+}
+$('#payBox').onclick=e=>{
+  const o=e.target.closest('.opt');if(o)return renderReq(o.dataset.k);
+  if(e.target.id==='paid')return startTimer();
+  if(e.target.id==='back')return renderMethods();
+  if(e.target.id==='cancel')return show('v-shop');
+};
 
-  function cartCount(){ return Object.values(cart).reduce((s,q) => s+q, 0); }
-  function cartTotal(){
-    return Object.entries(cart).reduce((s,[id,q]) => {
-      const p = products.find(x => x.id == id);
-      return s + (p ? p.price*q : 0);
-    }, 0);
-  }
+// профиль и история покупок
+$('#meClose').onclick=()=>$('#meM').hidden=true;
+async function openHist(){
+  $('#meM').hidden=false;$('#hist').innerHTML='<p class="muted">Загрузка…</p>';
+  try{
+    const l=await api('/api/purchases');
+    $('#hist').innerHTML=l.length?l.map(p=>`<div class="hist"><b>Заказ №${p.id}</b><span class="muted">${new Date(p.paidAt).toLocaleString('ru-RU')}</span><span class="muted">Способ: ${esc(p.method)}</span>${p.items.map(i=>`<div class="row"><span class="grow">${esc(i.name)} × ${i.qty}</span>${fmt(i.price*i.qty)}</div>`).join('')}<div class="row tot"><span class="grow">Итого</span><b>${fmt(p.total)}</b></div></div>`).join(''):'<p class="muted">Покупок пока нет. Оплаченные заказы появятся здесь.</p>';
+  }catch(x){if(x.status===401)logout();}
+};
 
-  function renderCart(){
-    const ids = Object.keys(cart).filter(id => cart[id] > 0);
-    cartBadge.textContent = cartCount();
-    if(!ids.length){
-      cartItemsEl.innerHTML = '<div class="empty-cart">Корзина пуста</div>';
-      checkoutBtn.disabled = true;
-    } else {
-      cartItemsEl.innerHTML = ids.map(id => {
-        const p = products.find(x => x.id == id);
-        const q = cart[id];
-        return `
-          <div class="cart-row">
-            <div class="cart-row-icon">${p.icon}</div>
-            <div class="cart-row-info">
-              <div class="cart-row-name">${p.name}</div>
-              <div class="cart-row-price">${fmt(p.price)}</div>
-            </div>
-            <div class="qty">
-              <button data-act="dec" data-id="${p.id}" aria-label="Уменьшить">−</button>
-              <span>${q}</span>
-              <button data-act="inc" data-id="${p.id}" aria-label="Увеличить">+</button>
-            </div>
-            <button class="remove-btn" data-act="remove" data-id="${p.id}" aria-label="Удалить">✕</button>
-          </div>`;
-      }).join('');
-      checkoutBtn.disabled = false;
-    }
-    totalSumEl.textContent = fmt(cartTotal());
-  }
+// профиль
+async function loadMe(){
+  const m=await api('/api/me');
+  $('#stOrd').textContent=m.orders;$('#stSp').textContent=fmt(m.spent);
+  return m;
+}
+async function openProfile(){
+  $('#pfM').hidden=false;$('#pfMsg').textContent='';
+  try{
+    const m=await loadMe();
+    $('#pfLogin').textContent=m.login;$('#pfSince').textContent=new Date(m.createdAt).toLocaleDateString('ru-RU');$('#pfStat').textContent=m.orders+' / '+fmt(m.spent);
+  }catch(x){if(x.status===401)logout();}
+}
+$('#me').onclick=openProfile;
+$('#pfClose').onclick=()=>$('#pfM').hidden=true;
+$('#pfName').onsubmit=async e=>{
+  e.preventDefault();
+  try{
+    const d=await api('/api/rename',{method:'POST',body:{login:$('#nl').value}});
+    login=d.login;localStorage.setItem('login',login);
+    $('#meName').textContent=login;$('#av').textContent=login[0].toUpperCase();$('#pfLogin').textContent=login;
+    $('#nl').value='';$('#pfMsg').textContent='Логин изменён.';
+  }catch(x){$('#pfMsg').textContent=x.message;}
+};
+$('#pfPass').onsubmit=async e=>{
+  e.preventDefault();
+  try{
+    await api('/api/password',{method:'POST',body:{oldPassword:$('#op').value,newPassword:$('#np').value}});
+    $('#op').value=$('#np').value='';$('#pfMsg').textContent='Пароль изменён.';
+  }catch(x){$('#pfMsg').textContent=x.message;}
+};
+document.querySelectorAll('.nav-i').forEach(b=>b.onclick=()=>{
+  const g=b.dataset.go;
+  if(g==='cart')$('#cartBtn').click();
+  else if(g==='hist')openHist();
+  else if(g==='steam')$('.steam').scrollIntoView({behavior:'smooth'});
+  else window.scrollTo({top:0,behavior:'smooth'});
+});
 
-  function showToast(msg){
-    toast.textContent = msg;
-    toast.classList.add('show');
-    clearTimeout(showToast._t);
-    showToast._t = setTimeout(() => toast.classList.remove('show'), 2200);
-  }
-
-  function openCart(){ overlay.classList.add('open'); drawer.classList.add('open'); }
-  function closeCart(){ overlay.classList.remove('open'); drawer.classList.remove('open'); }
-
-  chipsEl.addEventListener('click', e => {
-    const b = e.target.closest('.chip');
-    if(!b) return;
-    activeCat = b.dataset.cat;
-    renderChips();
-    renderCatalog();
-  });
-
-  searchEl.addEventListener('input', () => { query = searchEl.value; renderCatalog(); });
-
-  catalog.addEventListener('click', e => {
-    const btn = e.target.closest('.buy-btn');
-    if(!btn) return;
-    const id = btn.dataset.id;
-    cart[id] = (cart[id] || 0) + 1;
-    renderCart();
-    showToast('Добавлено: ' + products.find(x => x.id == id).name);
-  });
-
-  cartItemsEl.addEventListener('click', e => {
-    const btn = e.target.closest('button[data-act]');
-    if(!btn) return;
-    const id = btn.dataset.id, act = btn.dataset.act;
-    if(act === 'inc') cart[id] = (cart[id] || 0) + 1;
-    if(act === 'dec') cart[id] = Math.max(0, (cart[id] || 0) - 1);
-    if(act === 'remove') cart[id] = 0;
-    renderCart();
-  });
-
-  cartBtn.addEventListener('click', openCart);
-  closeBtn.addEventListener('click', closeCart);
-  overlay.addEventListener('click', closeCart);
-
-  checkoutBtn.addEventListener('click', () => {
-    closeCart();
-    showToast('Заказ оформлен (демо — оплата не выполняется)');
-    setTimeout(() => { for(const id in cart) cart[id] = 0; renderCart(); }, 400);
-  });
-
-  // Пополнение Steam на произвольную сумму
-  const amountEl = $('amount'), customSum = $('customSum');
-
-  function customAmount(){
-    const v = parseFloat(amountEl.value);
-    return (Number.isFinite(v) && v >= 1 && v <= 1000) ? Math.round(v * 100) / 100 : null;
-  }
-
-  function updateCustomSum(){
-    const a = customAmount();
-    customSum.innerHTML = a === null
-      ? (amountEl.value ? 'Допустимо от 1 до 1000 $' : '')
-      : 'К оплате: <b>' + fmt(a) + '</b>';
-  }
-
-  function addCustom(){
-    const a = customAmount();
-    if(a === null){ showToast('Введите сумму от 1 до 1000 $'); amountEl.focus(); return; }
-    const id = 'c' + a.toFixed(2);
-    const name = 'Steam пополнение ' + fmt(a);
-    if(!products.some(p => p.id === id)){
-      products.push({id, icon:'🎮', name, desc:'Своя сумма', price:a, cat:'steam', hidden:true});
-    }
-    cart[id] = (cart[id] || 0) + 1;
-    renderCart();
-    showToast('Добавлено: ' + name);
-    amountEl.value = '';
-    updateCustomSum();
-  }
-
-  amountEl.addEventListener('input', updateCustomSum);
-  amountEl.addEventListener('keydown', e => { if(e.key === 'Enter') addCustom(); });
-  $('customBtn').addEventListener('click', addCustom);
-  $('quick').addEventListener('click', e => {
-    const b = e.target.closest('[data-q]');
-    if(!b) return;
-    amountEl.value = b.dataset.q;
-    updateCustomSum();
-  });
-
-  renderChips();
-  renderCatalog();
-  renderCart();
+// при открытии: если уже вошли, сразу в каталог
+(async()=>{
+  if(token){try{await api('/api/purchases');return enter();}catch{}}
+  show('v-auth');
+})();
 </script>
-
 </body>
 </html>

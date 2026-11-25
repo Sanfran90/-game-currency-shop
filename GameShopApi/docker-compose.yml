@@ -1,21 +1,55 @@
 services:
+  gateway:
+    image: nginx:1.27-alpine
+    container_name: gameshop-gateway
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - api
+
   api:
     build: .
-    ports:
-      - "8080:8080"
+    container_name: gameshop-api
     environment:
       - CONNECTION_STRING=Host=db;Port=5432;Database=app;Username=postgres;Password=1234
+      - REDIS_HOST=redis:6379
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
 
   db:
     image: postgres:16
+    container_name: gameshop-db
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=1234
       - POSTGRES_DB=app
     volumes:
       - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d app"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    container_name: gameshop-redis
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: gameshop-pgadmin
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+      - PGADMIN_DEFAULT_PASSWORD=admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - db
 
 volumes:
   db_data:
